@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="耿鹤的个人作品集 - AI Agent架构 / 交互设计 / 产品思考">
+    <title>耿鹤 OS | 个人作品集</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- 开机引导层 (Win7 风格启动) -->
+    <div id="boot-screen" class="boot-screen">
+        <div class="boot-logo-w7">
+            <div class="boot-flag boot-flag-r"></div>
+            <div class="boot-flag boot-flag-g"></div>
+            <div class="boot-flag boot-flag-b"></div>
+            <div class="boot-flag boot-flag-y"></div>
+        </div>
+        <div class="boot-text-w7">正在启动 Geng He OS</div>
+        <div class="boot-bar"><div class="boot-bar-fill"></div></div>
+    </div>
+
+    <!-- 桌面 -->
+    <div id="desktop" class="desktop">
+        <!-- 首次访问引导提示 -->
+        <div id="hint" class="hint">
+            <span class="hint-text">双击图标，打开对应的作品窗口开始探索。</span>
+            <button class="hint-close" onclick="closeHint()">知道了</button>
+        </div>
+
+        <!-- 桌面图标 -->
+        <div class="desktop-icons">
+            <div class="desktop-icon" data-window="ai" tabindex="0">
+                <div class="icon-img" id="icon-ai"></div>
+                <div class="icon-label">AI_Gallery</div>
+            </div>
+            <div class="desktop-icon" data-window="ui" tabindex="0">
+                <div class="icon-img" id="icon-ui"></div>
+                <div class="icon-label">UI_Studio</div>
+            </div>
+            <div class="desktop-icon" data-window="product" tabindex="0">
+                <div class="icon-img" id="icon-product"></div>
+                <div class="icon-label">Product_Lab</div>
+            </div>
+            <div class="desktop-icon" data-window="art" tabindex="0">
+                <div class="icon-img" id="icon-art"></div>
+                <div class="icon-label">Art_Corner</div>
+            </div>
+            <div class="desktop-icon" data-window="about" tabindex="0">
+                <div class="icon-img" id="icon-about"></div>
+                <div class="icon-label">About_Me</div>
+            </div>
+            <div class="desktop-icon desktop-icon-trash" data-window="trash" tabindex="0">
+                <div class="icon-img" id="icon-trash"></div>
+                <div class="icon-label">回收站</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 任务栏 -->
+    <div class="taskbar">
+        <button class="start-btn" id="start-btn" title="开始">
+            <span class="start-orb"></span>
+        </button>
+        <div class="taskbar-windows" id="taskbar-windows"></div>
+        <div class="system-tray">
+            <button class="tray-btn" id="theme-toggle" title="切换日/夜模式"><span class="pxi pxi-16 pxi-sun"></span></button>
+            <button class="tray-btn" id="sound-toggle" title="开关音效"><span class="pxi pxi-16 pxi-sound-on"></span></button>
+            <span class="tray-clock" id="tray-clock">00:00<span class="tc-date" id="tray-date"></span></span>
+        </div>
+    </div>
+
+    <!-- 开始菜单 (Win7 真实双栏 + 用户头像) -->
+    <div class="start-menu" id="start-menu">
+        <!-- 用户头像区 -->
+        <div class="start-userbar">
+            <div class="start-avatar" id="start-avatar">
+                <div class="px-avatar"></div>
+            </div>
+            <div class="start-username">耿鹤</div>
+            <button class="start-power" id="start-power" title="关机">
+                <span class="pxi pxi-16 pxi-power"></span>
+            </button>
+        </div>
+        <div class="start-menu-inner">
+            <div class="start-left">
+                <div class="start-menu-item" data-window="ai"><span class="smi-ico pxi-svg pxi-svg-22" id="smi-ai"></span> AI 生图系列</div>
+                <div class="start-menu-item" data-window="ui"><span class="smi-ico pxi-svg pxi-svg-22" id="smi-ui"></span> UI 制作</div>
+                <div class="start-menu-item" data-window="product"><span class="smi-ico pxi-svg pxi-svg-22" id="smi-product"></span> 产品产出与思考</div>
+                <div class="start-menu-item" data-window="art"><span class="smi-ico pxi-svg pxi-svg-22" id="smi-art"></span> 美术作品</div>
+                <div class="start-menu-divider"></div>
+                <div class="start-menu-item" data-window="about"><span class="smi-ico pxi-svg pxi-svg-22" id="smi-about"></span> 关于我</div>
+                <div class="start-menu-item" data-window="contact"><span class="smi-ico pxi-svg pxi-svg-22" id="smi-contact"></span> 联系方式</div>
+                <div class="start-search"><span class="pxi pxi-16 pxi-search" style="margin-right:6px;"></span> 搜索程序和文件</div>
+            </div>
+            <div class="start-right">
+                <div class="start-right-item">文档</div>
+                <div class="start-right-item">图片</div>
+                <div class="start-right-item">计算机</div>
+                <div class="start-right-item">控制面板</div>
+                <div class="start-right-item">设备和打印机</div>
+                <div class="start-right-item">帮助和支持</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 窗口容器 -->
+    <div id="window-container"></div>
+
+    <!-- 桌面右键菜单 -->
+    <div class="ctx-menu" id="ctx-menu">
+        <div class="ctx-item" data-act="view"><span class="pxi pxi-16 pxi-image"></span> 查看 <span class="ctx-sub-arrow">▶</span></div>
+        <div class="ctx-item" data-act="sort"><span class="pxi pxi-16 pxi-folder"></span> 排序方式 <span class="ctx-sub-arrow">▶</span></div>
+        <div class="ctx-item" data-act="refresh"><span class="pxi pxi-16 pxi-refresh"></span> 刷新</div>
+        <div class="ctx-sep"></div>
+        <div class="ctx-item" data-act="paste" style="color:#aaa;"><span class="pxi pxi-16 pxi-clipboard"></span> 粘贴</div>
+        <div class="ctx-sep"></div>
+        <div class="ctx-item" data-act="newfolder" style="color:#aaa;"><span class="pxi pxi-16 pxi-folder"></span> 新建文件夹</div>
+        <div class="ctx-sep"></div>
+        <div class="ctx-item" data-act="personalize"><span class="pxi pxi-16 pxi-palette"></span> 个性化</div>
+    </div>
+
+    <script src="js/icons.js"></script>
+    <script src="js/windows.js"></script>
+    <script src="js/content.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

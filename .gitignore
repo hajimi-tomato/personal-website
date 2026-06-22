@@ -1,0 +1,5 @@
+.server.log
+.session_tmps/
+.thumbs/
+__MACOSX/
+.DS_Store
